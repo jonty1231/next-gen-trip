@@ -27,14 +27,14 @@ const CompoBlog = () => {
         <Link href={`/blogView/${info.slug}`} className="event-box-main flex flex-wrap   items-center justify-center gap-3">
         <div className="event-box h-full">
           <img src={`${imgurl}/${info.blog_image}`}  className='h-full '/>
-          <div>
-            <h2 className='' >
+          <div className='absolute bottom-3 z-50 flex flex-col gap-3 left-3'>
+            <h2 className='text-white font-semibold ' >
             {info.blog_text}
             </h2>
-            <Link href={`/blogView/${info.slug}`}>
-            <span> {new Date(info.created_at).toLocaleString('en-US', options)}</span>
-              {/* <span>{info.blog_type}</span> */}
-            </Link>
+            <span className=' p-2 text-sm w-fit text-white bg-[#2196f3] rounded-md'>
+          {new Date(info.created_at).toLocaleString('en-US', options)}
+             
+            </span>
           </div>
         </div>
         

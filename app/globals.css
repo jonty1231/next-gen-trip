@@ -377,7 +377,7 @@ a.text-sm {
   border-radius: 2px;
 }
 
-.event-box div:nth-child(2) {
+/* .event-box div:nth-child(2) {
   z-index: 2;
   position: absolute;
   margin-top: -135px;
@@ -385,32 +385,32 @@ a.text-sm {
   width: 100%;
   padding-left: 15px;
   padding-right: 10px;
-}
-.event-box span {
+} */
+/* .event-box span {
   font-weight: 500;
   color: #ffffff;
   background: #2196f3;
   padding: 3px 15px;
   border-radius: 10px;
   position: relative;
-  top: 10px;
-}
-.event-box h2 {
+  top: 30px;
+} */
+/* .event-box h2 {
   text-overflow: ellipsis;
-  /* white-space: pre; */
+  
   padding: 0px 6px;
   overflow: hidden;
   font-size: 18px;
-}
+} */
 
-.event-box p {
+/* .event-box p {
   font-size: 13px;
   padding: 0px 15px;
   text-overflow: ellipsis;
   white-space: pre;
   overflow: hidden;
   color: #dddcdc;
-}
+} */
 
 .add-list textarea {
   height: 120px;

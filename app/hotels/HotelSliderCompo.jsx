@@ -146,7 +146,7 @@ const response = await axios.get(`${apilink}/home/bannerimg`);
     return () => clearTimeout(timeout);
   }, []);
 
-  console.log('sliderdata',sliderdata.info[0]?.img2)
+ 
 
   return (
     <>
@@ -154,15 +154,25 @@ const response = await axios.get(`${apilink}/home/bannerimg`);
 
 
 
-        <div className=" lg:flex-row px-4 lg:px-36gap-4 w-full my-15 flex justify-center ">
+        <div className=" lg:flex-row px-4 lg:px-36 gap-4 w-full my-15 flex justify-center ">
         <Swiper
-            className=" w-full h-[200px] lg:h-[300px] "
+            className=" w-full h-[350px]  lg:h-[300px] "
             loop={true}
               autoplay={{
                 delay: 2500,
                 disableOnInteraction: false,
               }}
-              slidesPerView={4}  
+              breakpoints={{
+                640: {
+                  slidesPerView: 1, // 1 slide on screens < 640px (mobile)
+                },
+                768: {
+                  slidesPerView: 2, // Optional: 2 slides for tablets
+                },
+                1024: {
+                  slidesPerView: 4, // 4 slides for larger screens (desktop)
+                },
+              }}
               spaceBetween={50}
             
               modules={[Autoplay]}
@@ -173,7 +183,7 @@ const response = await axios.get(`${apilink}/home/bannerimg`);
                   className="flex flex-col   rounded-2xl shadow-sm bg-white-900"
                 >    
 
-<div className="rounded-2xl    h-[150px]   md:h-[250px] lg:h-full">
+<div className="rounded-2xl    h-[350px]   md:h-[250px] lg:h-full">
 
 
                <img src={`/slide/loadimg-${index+1}.png`} alt="" className="h-full w-full " />
