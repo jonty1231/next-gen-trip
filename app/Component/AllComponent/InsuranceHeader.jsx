@@ -1,213 +1,290 @@
 "use client";
 
 import Navbar from "./Navbar";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { useDispatch } from "react-redux";
-import { getInsuranceSearch } from "../Store/slices/insuranceSearchSlice";
 import { useRouter } from "next/navigation";
 
 export default function InsuranceHeader() {
-
-const navigation =useRouter();
-
+  const navigation = useRouter();
+  const dispatch = useDispatch();
+  const [isVisible, setIsVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // Added loading state
 
   const planCategories = [
-    
-    { id: 1, title: "DomesticTravelPolicy" },
-    { id: 2, title: "OverseasTravelInsurance" },
-    { id: 3, title: "StudentOverseasInsurance" },
-    { id: 4, title: "SchengenOverseasInsurance" },
-    { id: 5, title: "InboundTravelPolicy" },
-    { id: 6, title: "CancellationInsurance" },
+    { id: 1, title: "Domestic Travel Policy" },
+    { id: 2, title: "Overseas Travel Insurance" },
+    { id: 3, title: "Student Overseas Insurance" },
+    { id: 4, title: "Schengen Overseas Insurance" },
+    { id: 5, title: "Inbound Travel Policy" },
+    { id: 6, title: "Cancellation Insurance" },
   ];
 
   const planCoverage = [
     { id: 1, name: "US" },
-    { id: 2, name: "Non_US" },
-    { id: 3, name: "WorldWide" },
+    { id: 2, name: "Non US" },
+    { id: 3, name: "World Wide" },
     { id: 4, name: "India" },
     { id: 5, name: "Asia" },
     { id: 6, name: "Canada" },
     { id: 7, name: "Australia" },
-    { id: 8, name: "SchenegenCountries" },
   ];
 
-  const dispatch=useDispatch();
+  const planTypes = [
+    { id: "1", name: "Single Trip" },
+    { id: "2", name: "Annual Multi-Trip" },
+  ];
 
-   const [isOpen, setIsOpen] = useState(null);
-  const [alldata,setallData]=useState({Plan_Category:{title:planCategories[0].title,num:planCategories[0].id}   , Plan_Coverage:{name:planCoverage[0].name,num:planCoverage[0].id}   })
-
-
+  const [isOpen, setIsOpen] = useState(null);
+  const [alldata, setAllData] = useState({
+    Plan_Category: planCategories[0],
+    Plan_Coverage: planCoverage[0],
+    Plan_Type: planTypes[0].id,
+    TravelStartDate: "",
+    TravelEndDate: "",
+    NoOfPax: 1,
+    PaxAge: [],
+  });
 
   const DropDownHandler = (auth) => {
     setIsOpen((prevVal) => (prevVal === auth ? null : auth));
   };
-  const handeldate =(e)=>{
-console.log( new Date(e.target.value),"sadfwdcfwefcwe")
-  }
 
+  // Load data from localStorage on component mount
+  useEffect(() => {
+    const savedData = localStorage.getItem("insuranceData");
+    if (savedData) {
+      const parsedData = JSON.parse(savedData);
+      setAllData({
+        ...parsedData,
+        Plan_Category: planCategories.find(cat => cat.id === parsedData.Plan_Category.id) || planCategories[0],
+        Plan_Coverage: planCoverage.find(cov => cov.id === parsedData.Plan_Coverage.id) || planCoverage[0],
+        Plan_Type: parsedData.Plan_Type || planTypes[0].id,
+      });
+    }
+  }, []);
 
-  const handelIncSearch=()=>{
-    console.log(alldata)
+  // Save data to localStorage whenever alldata changes
+  useEffect(() => {
+    localStorage.setItem("insuranceData", JSON.stringify(alldata));
+  }, [alldata]);
 
-    
-    dispatch(getInsuranceSearch({PlanCategory:alldata.Plan_Category.num,PlanCoverage:alldata.Plan_Coverage.num,PlanType:alldata.Plan_Type  ,TravelStartDate:alldata.TravelStartDate,  TravelEndDate:alldata.TravelEndDate}))
+  const handlePaxChange = (increment) => {
+    const newNoOfPax = Math.max(1, alldata.NoOfPax + (increment ? 1 : -1));
+    const updatedPaxAge = increment
+      ? [...alldata.PaxAge, ""]
+      : alldata.PaxAge.slice(0, -1);
+    setAllData({
+      ...alldata,
+      NoOfPax: newNoOfPax,
+      PaxAge: updatedPaxAge,
+    });
+  };
 
-    navigation.push(`/Insurance/plancategory=${alldata.Plan_Category.num}&plancoverage=${alldata.Plan_Coverage.num}&plantype=${alldata.Plan_Type}&travelstartdate=${alldata.TravelStartDate}&travelenddate=${alldata.TravelEndDate}`)
-  }
+  const handleAgeChange = (index, age) => {
+    const updatedAges = [...alldata.PaxAge];
+    updatedAges[index] = age;
+    setAllData({ ...alldata, PaxAge: updatedAges });
+  };
 
-
-
+  const handelIncSearch = () => {
+    setIsLoading(true); // Show loader
+    setTimeout(() => {  // Simulate async operation
+      navigation.push(
+        `/Insurance/plancategory=${alldata.Plan_Category.id}&plancoverage=${alldata.Plan_Coverage.id}&plantype=${alldata.Plan_Type}&travelstartdate=${encodeURIComponent(alldata.TravelStartDate)}&travelenddate=${encodeURIComponent(alldata.TravelEndDate)}&noofpax=${alldata.NoOfPax}&paxage=${encodeURIComponent(alldata.PaxAge.join(","))}`
+      );
+      setIsLoading(false); // Hide loader after navigation
+    }, 1000); // Adjust delay as needed
+  };
 
   return (
     <>
-      <div className="relative px-5 md:px-16 xl:px-32   pt-10 ">
-        <div className="bg-gradient-to-r from-[#002043] to-[#004080] h-[6rem] absolute inset-0 -z-10 " />
-
-        <div className="InsuranceHeader  shadow-2xl bg-red-500  e rounded-md   ">
+      <div className="relative px-5 md:px-16 xl:px-32 pt-10">
+        <div className="bg-gradient-to-r from-[#002043] to-[#004080] h-[6rem] absolute inset-0 -z-10" />
+        <div className="InsuranceHeader shadow-2xl bg-white rounded-md">
           <div className="bg-gray-200 border-b rounded-sm shadow">
             <Navbar />
           </div>
-          <div className="bg-white flex flex-wrap  lg:flex-nowrap items-center gap-5 md:gap-8 py-5 px-4 md:px-4 ">
-            <div className="flex flex-col  w-full justify-between lg:w-fit md:flex-row gap-4 md:gap-4">
-              <div className=" w-full">
-                
-                <p>              TravelStartDate</p>
-                                <input
-                  type="date"
-                  id="startDate"
-                  onChange={(e)=>{ setallData(  {...alldata , TravelStartDate: new Date(e.target.value)} ) }}
 
+          <div className="bg-white flex flex-wrap lg:flex-nowrap items-center gap-5 md:gap-8 py-5 px-4 md:px-4">
+            <div className="flex flex-col w-full justify-between lg:w-fit md:flex-row gap-4 md:gap-4">
+              <div className="w-full">
+                <p>Travel Start Date</p>
+                <input
+                  type="date"
+                  value={alldata.TravelStartDate}
+                  onChange={(e) =>
+                    setAllData({ ...alldata, TravelStartDate: e.target.value })
+                  }
                   className="w-full p-2 border border-gray-300 rounded"
                 />
               </div>
-              <div className="w-full">
-                <p>TravelEndDate</p>
-                <input
-                                  onChange={(e)=>{ setallData(  {...alldata , TravelEndDate: new Date(e.target.value)} ) }}
 
+              <div className="w-full">
+                <p>Travel End Date</p>
+                <input
                   type="date"
-                  id="endDate"
+                  value={alldata.TravelEndDate}
+                  onChange={(e) =>
+                    setAllData({ ...alldata, TravelEndDate: e.target.value })
+                  }
                   className="w-full p-2 border border-gray-300 rounded"
                 />
               </div>
             </div>
 
-            <ul className="list-none text-nowrap relative z-50  flex flex-col   xl:flex-row   gap-4 md:gap-4">
-             <div className="flex gap-3 items-center ">
-               {/* Plan Category Dropdown */}
-<div className="flex flex-col gap-3">
-               <li
-                className="flex relative items-center gap-2 cursor-pointer"
-                onClick={() => DropDownHandler("Category")}
+            <div className="w-full lg:w-auto relative">
+              <label className="text-sm font-medium text-gray-700">No. of Passengers</label>
+              <div
+                className="flex items-start gap-2 p-2 border-2 text-black border-gray-200 rounded-lg mt-1 bg-white hover:border-blue-500 transition cursor-pointer"
+                onMouseEnter={() => setIsVisible(true)}
               >
-                <span className="text-sm md:text-base">Plan Category</span>
-               
-                <IoIosArrowDown
-                  className={`transition-transform ${
-                    isOpen === "Category" ? "rotate-180" : "rotate-0"
-                  }`}
-                />
-             
-
-                {isOpen === "Category" && (
-                  <ul className="mt-2 z-50  absolute bg-white  text-black top-10 md:top-12 left-0 w-max shadow-md rounded-md p-2" onMouseLeave={()=>setIsOpen("")} >
-                    {planCategories.map((category) => (
-                      <li
-                        onClick={() => {  setIsOpen(""), setallData({...alldata,Plan_Category:{title:category.title,num:category.id }}) } }
-                        
-                        key={category.id}
-                        className="py-1 px-2 hover:bg-gray-100 cursor-pointer text-sm md:text-base border-b-[#48484873] border-b-2"
-                      >
-                        {category.title}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-
-
-              </li>
-              <p>{alldata.Plan_Category.title}</p>
-              </div>
-              {/* Plan Coverage Dropdown */}
-              <div className="flex flex-col gap-3 items-center">
-              <li
-                className="flex relative items-center gap-2 cursor-pointer"
-                onClick={() => DropDownHandler("Coverage")}
-              >
-                <span className="text-sm md:text-base">Plan Coverage</span>
-                <IoIosArrowDown
-                  className={`transition-transform ${
-                    isOpen === "Coverage" ? "rotate-180" : "rotate-0"
-                  }`}
-                />
-                {isOpen === "Coverage" && (
-                  <ul className="mt-2 z-50 absolute bg-white text-black top-10 md:top-12 left-0  w-max shadow-md rounded-md p-2" onMouseLeave={()=>setIsOpen("")}>
-                    {planCoverage.map((item) => (
-                      <li
-                      onClick={() => {  setIsOpen(""), setallData({...alldata,Plan_Coverage:{name:item.name,num:item.id}}) } }
-                      key={item.id}
-                        className="py-1 px-2 hover:bg-gray-100 cursor-pointer text-sm md:text-base"
-                      >
-                        {item.name}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </li>
-             
-              <p>{alldata.Plan_Coverage.name}</p>
-              </div>
-
-
-             </div>
-
-              {/* Plan Type Radio Buttons */}
-              <li className="flex flex-col  items-start md:items-center gap-3">
-                <h4 className="text-sm md:text-base font-semibold">
-                  Plan Type
-                </h4>
-                <div className="flex flex-row items-start md:items-center gap-2">
-                  <div>
-                    <input
-                      id="SingleType"
-                      type="radio"
-                      name="planType"
-                      className="mr-2"
-                      value={"1"}
-                      onClick={(e) => {  setIsOpen(""), setallData({...alldata, Plan_Type:e.target.value}) } }
-
-                    />
-                    <label
-                      htmlFor="SingleType"
-                      className="text-sm md:text-base"
-                    >
-                      Single Type = 1
-                    </label>
-                  </div>
-                  <div>
-                    <input
-                      id="AMT2"
-                      type="radio"
-                      value={"2"}
-                      name="planType"
-                      className="mr-2"
-                      onClick={(e) => {  setIsOpen(""), setallData({...alldata, Plan_Type:e.target.value}) } }
-
-
-                    />
-                    <label htmlFor="AMT2" className="text-sm md:text-base">
-                      AMT = 2
-                    </label>
-                  </div>
+                <div className="text-gray-400">
+                  <h5 className="font-bold text-lg text-black">{alldata.NoOfPax}</h5>
+                  <p className="text-gray-400 text-xs">Traveller(s)</p>
                 </div>
-              </li>
-            </ul>
-            <button className=" bg-[#0c3a48] text-white p-3 px-4 rounded-md" onClick={handelIncSearch}>Search Ins</button>
-          </div>
+                <button className="ml-2 text-blue-600 hover:text-blue-800 text-sm font-medium">
+                  Edit
+                </button>
+                {isVisible && (
+                  <div
+                    onMouseLeave={() => setIsVisible(false)}
+                    className="absolute top-[100%] left-0 min-w-full z-[99] mt-2"
+                  >
+                    <div className="shadow-2xl rounded-lg bg-white flex flex-col gap-4 p-4 border border-gray-200">
+                      <div className="flex gap-3 justify-between items-center">
+                        <p className="text-sm font-medium text-gray-700">Adult Count</p>
+                        <div className="flex items-center gap-3">
+                          <button
+                            className="px-2 py-1 border border-gray-300 rounded hover:bg-gray-100 transition"
+                            onClick={() => handlePaxChange(false)}
+                            disabled={alldata.NoOfPax <= 1}
+                          >
+                            -
+                          </button>
+                          <p className="px-4 py-1 border border-gray-300 rounded text-gray-800 font-semibold">
+                            {alldata.NoOfPax}
+                          </p>
+                          <button
+                            className="px-2 py-1 border border-gray-300 rounded hover:bg-gray-100 transition"
+                            onClick={() => handlePaxChange(true)}
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
 
-         
+                      <div className="mt-2 space-y-2">
+                        {Array.from({ length: alldata.NoOfPax }).map((_, index) => (
+                          <div key={index} className="flex items-center gap-3">
+                            <span className="text-sm text-gray-600">Passenger {index + 1} Age:</span>
+                            <input
+                              type="number"
+                              min="1"
+                              max="100"
+                              value={alldata.PaxAge[index] || ""}
+                              onChange={(e) => handleAgeChange(index, e.target.value)}
+                              className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div>
+              <label className="text-sm font-medium">Plan Category</label>
+              <select
+                className="w-full p-2 border border-gray-300 rounded"
+                value={alldata.Plan_Category.id}
+                onChange={(e) =>
+                  setAllData({
+                    ...alldata,
+                    Plan_Category: planCategories.find((cat) => cat.id == e.target.value),
+                  })
+                }
+              >
+                {planCategories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.title}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="text-sm font-medium">Plan Coverage</label>
+              <select
+                className="w-full p-2 border border-gray-300 rounded"
+                value={alldata.Plan_Coverage.id}
+                onChange={(e) =>
+                  setAllData({
+                    ...alldata,
+                    Plan_Coverage: planCoverage.find((cov) => cov.id == e.target.value),
+                  })
+                }
+              >
+                {planCoverage.map((coverage) => (
+                  <option key={coverage.id} value={coverage.id}>
+                    {coverage.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="text-sm font-medium">Plan Type</label>
+              <select
+                className="w-full p-2 border border-gray-300 rounded"
+                value={alldata.Plan_Type}
+                onChange={(e) => setAllData({ ...alldata, Plan_Type: e.target.value })}
+              >
+                {planTypes.map((type) => (
+                  <option key={type.id} value={type.id}>
+                    {type.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <button
+              className="bg-[#0c3a48] mt-5 z-30 float-end text-white p-3 px-4 rounded-md relative"
+              onClick={handelIncSearch}
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <div className="flex items-center justify-center">
+                  <svg
+                    className="animate-spin h-5 w-5 mr-2 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8v8h8a8 8 0 01-16 0z"
+                    ></path>
+                  </svg>
+                  Loading...
+                </div>
+              ) : (
+                "Search"
+              )}
+            </button>
+          </div>
         </div>
       </div>
     </>
