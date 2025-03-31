@@ -156,14 +156,28 @@ const HotelSliderCompo = ({ isLoading, children }) => {
 
         <div className=" lg:flex-row px-4 lg:px-36gap-4 w-full my-15 flex justify-center ">
           <Swiper
-            className=" w-full h-[200px] lg:h-[300px] "
+            className=" w-full nd:h-[200px] lg:h-[300px] "
             loop={true}
             autoplay={{
               delay: 2500,
               disableOnInteraction: false,
             }}
-            slidesPerView={4}
+            slidesPerView={1}
             spaceBetween={50}
+            breakpoints={{
+    640: {
+      slidesPerView: 1, 
+      spaceBetween: 10,  
+    },
+    768: {
+      slidesPerView: 3,
+      spaceBetween: 20, 
+    },
+    1024: {
+      slidesPerView: 4, 
+      spaceBetween: 50,  
+    },
+  }}
 
             modules={[Autoplay]}
 
@@ -173,10 +187,10 @@ const HotelSliderCompo = ({ isLoading, children }) => {
               className="flex flex-col   rounded-2xl shadow-sm bg-white-900"
             >
 
-              <div className="rounded-2xl    h-[150px]   md:h-[250px] lg:h-full">
+              <div className="rounded-2xl  h-[280px]  sm:h-[150px]   md:h-[250px] lg:h-full">
 
 
-                <img src={`/slide/loadimg-${index + 1}.png`} alt="" className="h-full w-full " />
+                <img src={`/slide/loadimg-${index + 1}.png`} alt="" className=" object-center h-full w-full " />
 
               </div>
             </SwiperSlide>)}

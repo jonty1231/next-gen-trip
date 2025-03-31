@@ -935,7 +935,7 @@ const Header = () => {
           <div className=" px-4 border-b-2 shadow-sm  space-y-2 py-3 ">
             <div className=" tabs 1stTab text-sm text-nowrap  md:text-sm  flex  md:gap-2 font-bold text-black  ">
               <button
-                className={`md:px-4 py-1  font-bold rounded-3xl ${JourneyType === 1 ? "bg-white text-[#000] active" : " "
+                className={  `md:px-4 px-3 py-1  font-bold rounded-3xl ${JourneyType === 1 ? "bg-white text-[#000] active" : " "
                   } transition-colors duration-300 ease-in-out`}
                 onClick={() => handleTabClick(1)}
               >

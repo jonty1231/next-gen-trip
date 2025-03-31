@@ -179,6 +179,26 @@ const TopFlight = () => {
     fetchTopport();
   }, []);
 
+
+
+    const [numToShow, setNumToShow] = useState(4); 
+  
+    useEffect(() => {
+      const handleResize = () => {
+        if (window.innerWidth >= 768) {
+          setNumToShow(7); 
+        } else {
+          setNumToShow(4); 
+        }
+      };
+  
+      window.addEventListener('resize', handleResize);
+  
+      handleResize();
+  
+      return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
   return (
     <>
       <div>
@@ -307,14 +327,14 @@ const TopFlight = () => {
 
       </div>
 
-      <div className="w-full mx-auto px-6 md:md:px-10 lg:px-52  pt:0 lg:pt-12 z-[-1]">
-        <div className="relative text-xl md:text-xl lg:text-4xl tracking-tighter	 gfont1  font-bold text-gray-900 flex justify-center items-center gap-2 mb-4 lg:mb-14">
+      <div className="w-full mx-auto px-6 md:md:px-10 xl:px-52  pt:0 lg:pt-12 z-[-1]">
+        <div className="relative text-2xl md:text-3xl lg:text-4xl tracking-tighter	 gfont1  font-bold text-gray-900 flex justify-center items-center gap-2 mb-6 md:mb-8 lg:mb-14">
           Tourist 💕<span className="text-[#521010]"> Love</span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  xl:grid-cols-4 gap-5 md:gap-y-8 ">
           {viewAll &&
-            attractions.slice(0, 7).map((attraction, index) => (
+            attractions.slice(0, numToShow).map((attraction, index) => (
               <div className="  border-b-4 border-b-[#009dff] duration-200 text-xl shadow-md">
                 <Link href={attraction.link}>
                   <div className="bg-white shadow-md rounded-lg p-4">

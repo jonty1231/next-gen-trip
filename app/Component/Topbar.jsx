@@ -383,7 +383,7 @@ const Topbar = () => {
 
           {
             currencyappled && (
-              <div className="fixed flex justify-center items-center bg-[rgba(0,0,0,0.6)] inset-0 p-4">
+              <div onClick={()=>setcurrencyappled(false)} className="fixed flex justify-center items-center bg-[rgba(0,0,0,0.6)] inset-0 p-4">
               <div  onClick={(e) => e.stopPropagation()} className="h-[32rem] w-[700px] rounded-xl p-6 bg-white shadow-lg overflow-y-scroll">
  
                 <div className="text-center mb-6">
@@ -456,7 +456,8 @@ const Topbar = () => {
                 )}
 
                 {countryOpner && (
-                  <div className="fixed flex justify-center items-center bg-[rgba(0,0,0,0.5)] inset-0 p-4">
+                  <div  onClick={() => setCounrtyOpner(false)}
+ className="fixed flex justify-center items-center bg-[rgba(0,0,0,0.5)] inset-0 p-4">
                     <div className="h-[40rem] w-[800px] rounded-lg p-3 bg-white overflow-y-scroll">
                       <div className="space-y-5 ">
                         <div className="flex justify-between">
