@@ -154,7 +154,7 @@ const HotelSliderCompo = ({ isLoading, children }) => {
 
 
 
-        <div className=" lg:flex-row px-4 lg:px-36gap-4 w-full my-15 flex justify-center ">
+        <div className=" lg:flex-row px-4 lg:px-36 gap-4 w-full my-15 flex justify-center ">
           <Swiper
             className=" w-full nd:h-[200px] lg:h-[300px] "
             loop={true}
@@ -187,7 +187,7 @@ const HotelSliderCompo = ({ isLoading, children }) => {
               className="flex flex-col   rounded-2xl shadow-sm bg-white-900"
             >
 
-              <div className="rounded-2xl  h-[280px]  sm:h-[150px]   md:h-[250px] lg:h-full">
+              <div className="rounded-2xl    h-[150px]   md:h-[250px] lg:h-full">
 
 
                 <img src={`/slide/loadimg-${index + 1}.png`} alt="" className=" object-center h-full w-full " />
