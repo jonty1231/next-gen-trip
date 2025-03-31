@@ -20,11 +20,11 @@ const page = () => {
   return (
     <>
      
-      <Header />
-<div className='hidden md:block'>
+   <Header />
+    <div className='hidden md:block'>
 <CustomSlider/>
 
-</div>
+     </div>
 
 
 
