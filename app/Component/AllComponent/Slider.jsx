@@ -158,10 +158,10 @@ const response = await axios.get(`${apilink}/home/bannerimg`);
 sliderdata.isLoading &&
 <div className="flex  flex-col lg:flex-row px-4 lg:px-36 justify-end gap-4 w-full">
 {/* Image Placeholder Loader */}
-<div className="w-2/4 h-72 bg-gray-300 rounded-lg animate-pulse"></div>
-<div className="w-1/4 h-72 bg-gray-300 rounded-lg animate-pulse"></div>
-<div className="w-1/4 h-72 bg-gray-300 rounded-lg animate-pulse"></div>
-<div className="w-1/4 h-72 bg-gray-300 rounded-lg animate-pulse"></div>
+<div className="w-full md:w-2/4 h-72 bg-gray-300 rounded-lg animate-pulse"></div>
+<div className="hidden md:block w-1/4 h-72 bg-gray-300 rounded-lg animate-pulse"></div>
+<div className="hidden md:block w-1/4 h-72 bg-gray-300 rounded-lg animate-pulse"></div>
+<div className="hidden md:block w-1/4 h-72 bg-gray-300 rounded-lg animate-pulse"></div>
 </div>
 
 }

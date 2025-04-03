@@ -108,132 +108,14 @@ const Navbar = () => {
   return (
     <>
       {" "}
-      {/* <div className=" mt-0 lg:mt-2 mb-5 block md:hidden">
-        <Slider {...settings}>
-          <div>
-            <img
-              src="/images/azadi-sale-29jul-mob-strip2.webp"
-              alt=""
-              className="w-full"
-            />
-          </div>
-          <div>
-            <img src="/images/banner2.webp" alt="" className="w-full" />
-          </div>
-          <div>
-            <img
-              src="/images/apka trip banner 4.webp"
-              alt=""
-              className="w-full"
-            />
-          </div>
-          <div>
-            <img
-              src="/images/apka trip banner 3.webp"
-              alt=""
-              className="w-full"
-            />
-          </div>
-        </Slider>
-      </div> */}
+      
 <div className=" md:hidden">
 <CustomSlider />
 </div>
 
 
       <nav className="bg-white py-1 px-0 md:px-5 flex justify-between gap-2 transition-all duration-100 mb-3 md:mb-0">
-        {/* {isMobile ? (
-          <>
-            <div
-              className={`container relative grid grid-cols-3 custom-nav mx-2  px-2  transition-all duration-100  items-center `}
-            >
-              {icons.slice(0, showMore ? undefined : 6).map((item, index) => (
-                <Link
-                  href={item.link}
-                  key={index}
-                  onClick={() => setActiveLink(item.link)}
-                  className={`block items-center  w-[100px] m-1 lg:w-auto  space-x-2 py-2 px-0 text-center lg:px-4 rounded-md transition-colors duration-300   ${
-                    activeLink === item.link
-                      ? "bg-[#ECF5FE] text-white"
-                      : "hover:bg-[#ECF5FE] hover:text-white"
-                  }`}
-                >
-
-
-                  
-                                                    
-                  {isMobile ? (
-                    <div
-                      src={item.icon}
-                      alt={`${item.name} icon`}
-                      className={`w-6 h-6 ${item.class}`}
-                      style={index === 0 ? { transform: "rotate(312deg)" } : {}}
-                    />
-                  ) : (
-                    <div
-                      src={item.icon}
-                      alt={`${item.name} icon`}
-                      className={`w-6 h-6 ${item.className}`}
-                      style={index === 0 ? { transform: "rotate(312deg)" } : {}}
-                    />
-                  )}
-                  <span className="text-black font-semibold text-sm">
-                    {item.name}
-                  </span>
-                </Link>
-              ))}
-              {icons.length > 3 && (
-                <button
-                  onClick={() => setShowMore(!showMore)}
-                  className="rdboxes"
-                >
-                  <div className="arwbounce">
-                    {" "}
-                    {showMore ? <FaChevronUp /> : <FaChevronDown />}
-                  </div>
-                </button>
-              )}
-            </div>
-          </>
-        ) : (
-          <>
-            <div
-              className={`container relative custom-nav flex gap-6 lg:gap-0 transition-all duration-100 items-center `}
-            >
-              {icons.map((item, index) => (
-                <Link
-                  href={item.link}
-                  key={index}
-                  onClick={() => setActiveLink(item.link)}
-                  className={`block md:flex justify-center flex-wrap min-lg:flex-col lg:flex-row md:flex-col items-center gap-1 py-2 px-0 text-center lg:px-3 rounded-md hover:bg-[#ECF5FE] hover:text-white transition-colors duration-300 ${
-                    activeLink === item.link
-                      ? "bg-[#ECF5FE] text-white"
-                      : "hover:bg-[#ECF5FE] hover:text-white"
-                  }`}
-                >
-                  {isMobile ? (
-                    <div
-                      src={item.icon}
-                      alt={`${item.name} icon`}
-                      className={`w-6 h-6 ${item.class}`}
-                      style={index === 0 ? { transform: "rotate(312deg)" } : {}}
-                    />
-                  ) : (
-                    <div
-                      src={item.icon}
-                      alt={`${item.name} icon`}
-                      className={`w-10 h-10 ${item.className}`}
-                      style={index === 0 ? { transform: "rotate(312deg)" } : {}}
-                    />
-                  )}
-                  <span className="text-black font-semibold text-sm">
-                    {item.name}
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </>
-        )} */}
+      
 
 <div
               className={`container relative custom-nav grid grid-cols-3 md:flex gap-3 md:gap-6 lg:gap-0 transition-all duration-100 items-center overflow-auto `}
